@@ -39,19 +39,4 @@ public class PriorityItem<T>
     {
         this.priority = priority ;
     }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if(!this.getClass().equals(obj.getClass()))
-        {
-            return false ;
-        }
-        if(obj instanceof PriorityItem)
-        {
-            PriorityItem item = (PriorityItem) obj ;
-            return this.item.equals(item.getItem()) ;
-        }
-        return false ;
-    }
 }

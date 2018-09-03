@@ -32,6 +32,11 @@ public class Edge
         return n2;
     }
 
+    public void setWeight(int weight)
+    {
+    	this.weight = weight ;
+    }
+    
     public int getWeight()
     {
         return weight;
