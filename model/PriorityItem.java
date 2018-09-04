@@ -4,15 +4,17 @@ public class PriorityItem<T>
 {
     private T item ;
     private int priority ;
+    private int pos ;
 
     public PriorityItem()
     {
     }
 
-    public PriorityItem(T item, int priority)
+    public PriorityItem(T item, int priority, int pos)
     {
         this.setItem(item) ;
         this.priority = priority ;
+        this.pos = pos ;
     }
 
     public PriorityItem(T item)
@@ -27,7 +29,7 @@ public class PriorityItem<T>
     
     public void setItem(T item)
     {
-        this.item = item;
+        this.item = item ;
     }
     
     public int getPriority() 
@@ -39,4 +41,15 @@ public class PriorityItem<T>
     {
         this.priority = priority ;
     }
+    
+    public int getPos()
+    {
+        return this.pos ;
+    }
+    
+    public void setPos(int pos)
+    {
+        this.pos = pos ;
+    }
+    
 }

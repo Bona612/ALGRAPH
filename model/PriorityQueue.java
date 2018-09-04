@@ -5,52 +5,34 @@ import java.util.ArrayList;
 public class PriorityQueue<T>
 {
 	private ArrayList<PriorityItem<T>> list ;
+	private int capacity ;
+	private int dim ;
 
 	public PriorityQueue() 
 	{
 		this.list = new ArrayList<>() ;
 	}
 	
-	public void push(T item, int priorita)
+	public PriorityQueue(int n) 
 	{
-		PriorityItem<T> priorityItem = new PriorityItem<> (item, priorita) ;
-		this.list.add(priorityItem) ;
+		this.list = new ArrayList<>() ;
+		this.capacity = n ;
+		this.dim = 0 ;
 	}
 	
-	public PriorityItem<T> pop()
+	public void clear()
 	{
-		PriorityItem<T> max = searchMax() ;
-		remove(max) ;
-		return max ;
+		list.clear() ;
 	}
-	
-	public PriorityItem<T> read(T item)
+
+	public ArrayList<PriorityItem<T>> getList()
 	{
-		PriorityItem<T> priorityItem = new PriorityItem<> (item) ;
-		return searchItem(priorityItem) ;
+		return this.list ;
 	}
-	
-	public boolean existIteam(T item) 
+
+	public void setList(ArrayList<PriorityItem<T>> list)
 	{
-		PriorityItem<T> priorityItem = new PriorityItem<>(item) ;
-		return searchItem(priorityItem) != null ;
-	}
-	
-	public void remove(PriorityItem<T> priorityItem) 
-	{
-		if(priorityItem != null)
-		{
-			this.list.remove(priorityItem) ;
-		}
-	}
-	
-	public void remove(T item) 
-	{
-		PriorityItem <T> deleteItem = read(item) ;
-		if(deleteItem != null)
-		{
-			this.list.remove(deleteItem) ;
-		}
+		this.list = list ;
 	}
 	
 	public boolean isEmpty() 
@@ -58,58 +40,127 @@ public class PriorityQueue<T>
 		return this.list.isEmpty() ;
 	}
 	
-	public void update (T item, int priority)
+	public void maxHeapRestor(ArrayList<PriorityItem<T>> list, int i, int dim)
 	{
-		PriorityItem<T> newItem = new PriorityItem<>(item) ;
-		int i = searchPosItem(newItem) ;
-		if (i != -1)
+		int max = i ;
+		if(((2 * i) <= dim) && (this.list.get(2 * i).getPriority() > this.list.get(max).getPriority()))
 		{
-			this.list.get(i).setPriority(priority) ;
+			max = 2 * i ;
+		}
+		if((((2 * i) + 1) <= dim) && (this.list.get((2 * i) + 1).getPriority() > this.list.get(max).getPriority()))
+		{
+			max = (2 * i) + 1 ;
+		}
+		if(max != i)
+		{
+			this.swap(list, i, max) ;
+			this.maxHeapRestor(list, max, dim) ;
 		}
 	}
 	
-	public void clear() {
-		list.clear();
+	public void swap(ArrayList<PriorityItem<T>> list, int pos1, int pos2)
+	{
+		PriorityItem<T> aux = this.list.get(pos1) ;
+		this.list.get(pos1).setItem(this.list.get(pos2).getItem()) ;
+		this.list.get(pos1).setPriority(this.list.get(pos2).getPriority()) ;
+		this.list.get(pos1).setPos(this.list.get(pos2).getPos()) ;
+		this.list.get(pos2).setItem(aux.getItem()) ;
+		this.list.get(pos2).setPriority(aux.getPriority()) ;
+		this.list.get(pos2).setPos(aux.getPos()) ;
 	}
 	
-	private PriorityItem<T> searchMax() 
+	public void heapBuild(ArrayList<PriorityItem<T>> list, int n)
 	{
-		PriorityItem <T> max = null ;
-		for(PriorityItem<T> item : list)
+		for(int i = n / 2; i > 1; i--)
 		{
-			if (max == null || item.getPriority() > max.getPriority()) 
+			this.maxHeapRestor(list, i, n) ;
+		}
+	}
+	
+	public PriorityItem<T> getMax()
+	{
+		if(this.dim > 0)
+		{
+			return this.list.get(1) ;
+		}
+		return null ;
+	}
+	
+	public PriorityItem<T> deleteMax()
+	{
+		this.swap(this.list, 1, dim) ;
+		this.dim-- ;
+		this.maxHeapRestor(this.list, 1, dim) ;
+		return this.list.get(this.dim + 1) ;
+	}
+	
+	public T insert(T x, int p)
+	{
+		if(dim < capacity)
+		{
+			this.dim++ ;
+			PriorityItem<T> tmp = new PriorityItem<T>(x, p, dim) ;
+			this.list.get(dim).setItem(tmp.getItem()) ;
+			int i = dim ;
+			while((i > 1) && (this.list.get(i).getPriority() > this.list.get(i / 2).getPriority()))
 			{
-				max = item ;
+				this.swap(this.list, i, i / 2) ;
+				i = i / 2 ;
+			}
+			return this.list.get(i).getItem() ;
+		}
+		return null ;
+	}
+	
+	public void increase(PriorityItem<T> item, int p)
+	{
+		if(p > item.getPriority())
+		{
+			item.setPriority(p) ;
+			int i = item.getPos() ;
+			while((i > 1) && (this.list.get(i).getPriority() > this.list.get(i / 2).getPriority()))
+			{
+				this.swap(this.list, i, i / 2) ;
+				i = i / 2 ;
 			}
 		}
-		return max ;
 	}
 	
-	private PriorityItem <T> searchItem (PriorityItem<T> priorityItem)
+	public T delete(PriorityItem<T> item, int p)
 	{
-		PriorityItem<T> searched = null ;
-		for(PriorityItem<T> item:this.list) 
-		{
-			if(priorityItem.equals(item))
-			{
-				searched = item ;
-			}
-		}
-		return searched ;
+		item.setPriority(1000) ;
+		this.deleteMax() ;
+		return item.getItem() ;
 	}
 	
-	private int searchPosItem(PriorityItem<T> priorityItem) 
+	public boolean searchItem(T item)
 	{
-		for(int i=0; i< this.list.size(); i++) 
-		{
-			if(list.get(i).equals(priorityItem))
-			{
-				return i ;
-			}
-		}
-		return -1 ;
-	}
-
+		PriorityItem<T> priorityItem = new PriorityItem<>(item) ;
+        PriorityItem<T> searched = null ;
+        for(PriorityItem<T> tmp : this.list)
+        {
+            if(priorityItem.equals(tmp))
+            {
+                searched = tmp ;
+            }
+        }
+        return searched != null ;
+    }
+	
+	public PriorityItem<T> getPriorityItem(T item)
+	{
+		PriorityItem<T> found = null ;
+		PriorityItem<T> priorityItem = new PriorityItem<>(item) ;
+        for(PriorityItem<T> tmp : this.list)
+        {
+            if(priorityItem.equals(tmp))
+            {
+                found = tmp ;
+            }
+        }
+        return found ;
+    }
+	
 	@Override
 	public String toString()
 	{
@@ -133,14 +184,5 @@ public class PriorityQueue<T>
 		
 		return stringBuilder.toString() ;
 	}
-
-	public ArrayList<PriorityItem<T>> getList()
-	{
-		return this.list ;
-	}
-
-	public void setList(ArrayList<PriorityItem<T>> list)
-	{
-		this.list = list ;
-	}
+	
 }

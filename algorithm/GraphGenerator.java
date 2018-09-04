@@ -44,19 +44,19 @@ public class GraphGenerator
 
 	     Graph graph = new Graph() ;
 
-	     for (int i = 0; i < numNodes; i++)
+	     for(int i = 0; i < numNodes; i++)
 	     {
 	    	 graph.addNode(String.valueOf((char) (i + 65)));
 	     }
 
 	     int i = 0 ;
 
-	     while (i < numEdges)
+	     while(i < numEdges)
 	     {
 	    	 int rand1 = 0 ;
 	    	 int rand2 = 0 ;
 
-	         while (rand1 == rand2) 
+	         while(rand1 == rand2) 
 	         {
 	        	 rand1 = random.nextInt(numNodes) ;
 	             rand2 = random.nextInt(numNodes) ;
@@ -70,7 +70,7 @@ public class GraphGenerator
 	         int weight = random.nextInt(maxWeight - minWeight + 1) + minWeight ;
 	         newEdge.setWeight(weight) ;
 
-	         if (graph.addEdge(newEdge) != null)
+	         if(graph.addEdge(newEdge) != null)
 	         {
 	        	 i++ ;
 	         }
