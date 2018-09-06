@@ -37,10 +37,10 @@ public class GraphGenerator
 	     }
 
 		 Random random = new Random() ;
-
-	     int minEdges = (numNodes - 1) ;
-	     int maxEdges = (numNodes + 1) ;
-	     int numEdges = random.nextInt(maxEdges - minEdges + 1) + minEdges ;
+		 
+	     int minEdges = 0 ;
+	     int maxEdges = (int) Math.pow(2.0, (double) (numNodes - 1)) ;
+	     int numEdges = random.nextInt(maxEdges - minEdges + 1) ;
 
 	     Graph graph = new Graph() ;
 

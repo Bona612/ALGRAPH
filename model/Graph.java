@@ -75,14 +75,14 @@ public class Graph
     
     public boolean removeNode(Node node)
     {
-        if (!graph.containsKey(node))
+        if(!graph.containsKey(node))
         {
             return false ;
         }
         
         graph.remove(node);
         
-        for (Node n : graph.keySet())
+        for(Node n : graph.keySet())
         {
            graph.put(n, graph.get(n).stream().filter(e -> !e.getN2().equals(node)).collect(Collectors.toSet())) ;
         }

@@ -29,7 +29,7 @@ public class Node
 	@Override
 	public String toString()
 	{
-		return "Node{" + "label" + this.label + "}" ;
+		return "Node{" + "label " + this.label + "}" ;
 	}
 	
 	@Override

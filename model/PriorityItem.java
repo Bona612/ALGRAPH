@@ -10,16 +10,23 @@ public class PriorityItem<T>
     {
     }
 
+    public PriorityItem(T item)
+    {
+        this.setItem(item) ;
+    }
+    
+    public PriorityItem(T item, int priority)
+    {
+        this.setItem(item) ;
+        this.priority = priority ;
+        this.pos = -1 ;
+    }
+    
     public PriorityItem(T item, int priority, int pos)
     {
         this.setItem(item) ;
         this.priority = priority ;
         this.pos = pos ;
-    }
-
-    public PriorityItem(T item)
-    {
-        this.setItem(item) ;
     }
     
     public T getItem()

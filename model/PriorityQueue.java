@@ -18,6 +18,7 @@ public class PriorityQueue<T>
 		this.list = new ArrayList<>() ;
 		this.capacity = n ;
 		this.dim = 0 ;
+		this.list.add(new PriorityItem<T>()) ;
 	}
 	
 	public void clear()
@@ -37,7 +38,7 @@ public class PriorityQueue<T>
 	
 	public boolean isEmpty() 
 	{
-		return this.list.isEmpty() ;
+		return this.dim > 0 ;
 	}
 	
 	public void maxHeapRestor(ArrayList<PriorityItem<T>> list, int i, int dim)
@@ -53,14 +54,17 @@ public class PriorityQueue<T>
 		}
 		if(max != i)
 		{
-			this.swap(list, i, max) ;
+			this.swap(i, max) ;
 			this.maxHeapRestor(list, max, dim) ;
 		}
 	}
 	
-	public void swap(ArrayList<PriorityItem<T>> list, int pos1, int pos2)
+	public void swap(int pos1, int pos2)
 	{
-		PriorityItem<T> aux = this.list.get(pos1) ;
+		PriorityItem<T> aux = new PriorityItem<T>() ;
+		aux.setItem(this.list.get(pos1).getItem()) ;
+		aux.setPriority(this.list.get(pos1).getPriority()) ;
+		aux.setPos(this.list.get(pos1).getPos()) ;
 		this.list.get(pos1).setItem(this.list.get(pos2).getItem()) ;
 		this.list.get(pos1).setPriority(this.list.get(pos2).getPriority()) ;
 		this.list.get(pos1).setPos(this.list.get(pos2).getPos()) ;
@@ -81,33 +85,35 @@ public class PriorityQueue<T>
 	{
 		if(this.dim > 0)
 		{
-			return this.list.get(1) ;
+			return this.list.get(0) ;
 		}
 		return null ;
 	}
 	
 	public PriorityItem<T> deleteMax()
 	{
-		this.swap(this.list, 1, dim) ;
+		this.swap(1, dim) ;
 		this.dim-- ;
 		this.maxHeapRestor(this.list, 1, dim) ;
-		return this.list.get(this.dim + 1) ;
+		PriorityItem<T> tmp = this.list.get(this.dim + 1) ;
+		this.list.remove(this.dim + 1) ;
+		return tmp ;
 	}
 	
-	public T insert(T x, int p)
+	public PriorityItem<T> insert(T x, int p)
 	{
 		if(dim < capacity)
 		{
 			this.dim++ ;
 			PriorityItem<T> tmp = new PriorityItem<T>(x, p, dim) ;
-			this.list.get(dim).setItem(tmp.getItem()) ;
+			this.list.add(dim, tmp) ;
 			int i = dim ;
 			while((i > 1) && (this.list.get(i).getPriority() > this.list.get(i / 2).getPriority()))
 			{
-				this.swap(this.list, i, i / 2) ;
+				this.swap(i, i / 2) ;
 				i = i / 2 ;
 			}
-			return this.list.get(i).getItem() ;
+			return this.list.get(i) ;
 		}
 		return null ;
 	}
@@ -120,7 +126,7 @@ public class PriorityQueue<T>
 			int i = item.getPos() ;
 			while((i > 1) && (this.list.get(i).getPriority() > this.list.get(i / 2).getPriority()))
 			{
-				this.swap(this.list, i, i / 2) ;
+				this.swap(i, i / 2) ;
 				i = i / 2 ;
 			}
 		}
@@ -174,7 +180,7 @@ public class PriorityQueue<T>
 				numItems++ ;
 				Node node = (Node) item.getItem() ;
 				stringBuilder.append(node.getLabel()) ;
-				if(numItems < list.size())
+				if(numItems < this.dim)
 				{
 					stringBuilder.append(",") ;
 				}

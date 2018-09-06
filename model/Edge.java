@@ -7,18 +7,19 @@ public class Edge
 	private final Node n1 ;
 	private final Node n2 ;
 	private int weight ;
+	private static int DEFAULT_WEIGHT = 10 ;
 	
 	public Edge(Node n1, Node n2)
 	{
 		this.n1 = n1 ;
-		this.n2= n2 ;
-		this.weight = -1 ;
+		this.n2 = n2 ;
+		this.weight = DEFAULT_WEIGHT ;
 	}
 
 	public Edge(Node n1, Node n2, int weight)
 	{
 		this.n1 = n1 ;
-		this.n2= n2 ;
+		this.n2 = n2 ;
 		this.weight = weight ;
 	}
 	
@@ -45,7 +46,7 @@ public class Edge
     @Override
     public String toString()
     {
-        return "Edge{" + "n1=" + n1 + ", n2=" + n2 + ", weight=" + weight + "}" ;
+        return "Edge{" + "n1 = " + n1 + ", n2 = " + n2 + ", weight = " + weight + "}" ;
     }
     
     @Override
