@@ -119,15 +119,13 @@ public class Graph
     	{
     		if(e.getN1().equals(edge.getN1()) && e.getN2().equals(edge.getN2()))
     		{
-    			System.out.println("presente") ;
     			return null ;
     		}
     	}
-    	graph.get(edge.getN1()).add(edge) ;
-        /*if(!graph.get(edge.getN1()).add(edge))
+        if(!graph.get(edge.getN1()).add(edge))
         {
             return null ;
-        }*/
+        }
         return edge ;
     }
     

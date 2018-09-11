@@ -50,10 +50,9 @@ public class GraphGenerator
 	     }
 
 	     int i = 0 ;
-	     System.out.println(numEdges) ;
+	     
 	     while(i < numEdges)
 	     {
-	    	 System.out.println(i) ;
 	    	 int rand1 = 0 ;
 	    	 int rand2 = 0 ;
 
