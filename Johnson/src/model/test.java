@@ -44,7 +44,7 @@ public class test {
 		PriorityItem<Node> pi2 = new PriorityItem(2, 7, 1) ;
 		PriorityItem<Node> pi3 = new PriorityItem(3, 8, 2) ;
 		PriorityItem<Node> pi4 = new PriorityItem(4, 16, 3) ;
-		PriorityItem<Node> pi5 = new PriorityItem(5, 10, 4) ;*/
+		PriorityItem<Node> pi5 = new PriorityItem(5, 10, 4) ;
 		
 		PriorityQueue<Object> pq = new PriorityQueue<Object>(5) ;
 		System.out.println(pq.insert(n1, 14).getItem()) ;
@@ -56,8 +56,28 @@ public class test {
 		System.out.println(pq.deleteMax().getPriority()) ;
 		System.out.println(pq.toString()) ;
 		System.out.println(pq.deleteMax().getPriority()) ;
-		System.out.println(pq.toString()) ;
+		System.out.println(pq.toString()) ;*/
 		
+		Graph g = new Graph() ;
+		
+		g.addNode(n1) ;
+		g.addNode(n2) ;
+		g.addNode(n2) ;
+		
+		g.addEdge(n1, n2) ;
+		
+		g.addEdge(n2, n1) ;
+		g.addEdge(n1, n2) ;
+		
+		for(Node n : g.getNodes())
+		{
+			System.out.println(n.toString()) ;
+		}
+		
+		for(Edge e : g.getEdges())
+		{
+			System.out.println(e.toString()) ;
+		}
 	}
 
 }
