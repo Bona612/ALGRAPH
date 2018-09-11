@@ -62,7 +62,7 @@ public class GraphGenerator
 	     }
 
 	     int i = 0 ;
-
+	     
 	     while(i < numEdges)
 	     {
 	    	 int rand1 = 0 ;
@@ -77,12 +77,11 @@ public class GraphGenerator
 	         Node[] nodes = graph.getGraph().keySet().toArray(new Node[0]) ;
 	         Node n1 = nodes[rand1] ;
 	         Node n2 = nodes[rand2] ;
-
+	         
 	         int weight = random.nextInt(maxWeight - minWeight + 1) + minWeight ;
 	         Edge newEdge = new Edge(n1, n2, DEFAULT_MIN_WEIGHT);
 	         newEdge.setWeight(weight);
-	        
-	         System.out.println(i) ;
+	         
 	         if(graph.addEdge(newEdge) != null)
 	         {
 	        	 i++ ;

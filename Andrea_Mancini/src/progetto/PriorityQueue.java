@@ -88,7 +88,7 @@ public class PriorityQueue<T>
 	{
 		if(this.dim > 0)
 		{
-			return this.list.get(0) ;
+			return this.list.get(1) ;
 		}
 		return null ;
 	}

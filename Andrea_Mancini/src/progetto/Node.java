@@ -33,13 +33,13 @@ public class Node {
 	{
 	
 		this.label = "" ;
-		NodeGraphic();
+		//NodeGraphic();
 	}
 	
 	public Node(String label)
 	{
 		this.setLabel(label) ;
-		NodeGraphic();
+		//NodeGraphic();
 	}
 	
 	private void NodeGraphic() {
@@ -121,7 +121,7 @@ public class Node {
 	@Override
 	public String toString()
 	{
-		return "Node{" + "label" + this.label + "}" ;
+		return "Node{" + "label=" + this.label + "}" ;
 	}
 	
 	@Override
