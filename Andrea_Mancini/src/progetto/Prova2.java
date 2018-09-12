@@ -15,11 +15,8 @@ public class Prova2 //extends Application
 		Graph g = new Graph();
 		try {
 			g.setGraph(GraphGenerator.generateGraph().getGraph()) ;
-			for(Node n : g.getNodes())
-			{
-				System.out.println(n.toString()) ;
-			}
-			Algorithm alg = new Algorithm(g.getNode("A"), g) ;
+			Algorithm alg = new Algorithm(g) ;
+			alg.setStartNode(g.getNode("A")) ;
 			alg.executeAll() ;
 		}
 		catch(Exception e) {

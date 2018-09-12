@@ -44,21 +44,21 @@ public class PriorityQueue<T>
 		return this.dim > 0 ;
 	}
 	
-	public void maxHeapRestor(ArrayList<PriorityItem<T>> list, int i, int dim)
+	public void minHeapRestor(ArrayList<PriorityItem<T>> list, int i, int dim)
 	{
-		int max = i ;
-		if(((2 * i) <= dim) && (this.list.get(2 * i).getPriority() > this.list.get(max).getPriority()))
+		int min = i ;
+		if(((2 * i) <= dim) && (this.list.get(2 * i).getPriority() < this.list.get(min).getPriority()))
 		{
-			max = 2 * i ;
+			min = 2 * i ;
 		}
-		if((((2 * i) + 1) <= dim) && (this.list.get((2 * i) + 1).getPriority() > this.list.get(max).getPriority()))
+		if((((2 * i) + 1) <= dim) && (this.list.get((2 * i) + 1).getPriority() < this.list.get(min).getPriority()))
 		{
-			max = (2 * i) + 1 ;
+			min = (2 * i) + 1 ;
 		}
-		if(max != i)
+		if(min != i)
 		{
-			this.swap(i, max) ;
-			this.maxHeapRestor(list, max, dim) ;
+			this.swap(i, min) ;
+			this.minHeapRestor(list, min, dim) ;
 		}
 	}
 	
@@ -80,11 +80,11 @@ public class PriorityQueue<T>
 	{
 		for(int i = n / 2; i > 1; i--)
 		{
-			this.maxHeapRestor(list, i, n) ;
+			this.minHeapRestor(list, i, n) ;
 		}
 	}
-	
-	public PriorityItem<T> getMax()
+
+	public PriorityItem<T> getMin()
 	{
 		if(this.dim > 0)
 		{
@@ -93,11 +93,11 @@ public class PriorityQueue<T>
 		return null ;
 	}
 	
-	public PriorityItem<T> deleteMax()
+	public PriorityItem<T> deleteMin()
 	{
 		this.swap(1, dim) ;
 		this.dim-- ;
-		this.maxHeapRestor(this.list, 1, dim) ;
+		this.minHeapRestor(this.list, 1, dim) ;
 		PriorityItem<T> tmp = this.list.get(this.dim + 1) ;
 		this.list.remove(this.dim + 1) ;
 		return tmp ;
@@ -111,7 +111,7 @@ public class PriorityQueue<T>
 			PriorityItem<T> tmp = new PriorityItem<T>(x, p, dim) ;
 			this.list.add(dim, tmp) ;
 			int i = dim ;
-			while((i > 1) && (this.list.get(i).getPriority() > this.list.get(i / 2).getPriority()))
+			while((i > 1) && (this.list.get(i).getPriority() < this.list.get(i / 2).getPriority()))
 			{
 				this.swap(i, i / 2) ;
 				i = i / 2 ;
@@ -121,13 +121,13 @@ public class PriorityQueue<T>
 		return null ;
 	}
 	
-	public void increase(PriorityItem<T> item, int p)
+	public void decrease(PriorityItem<T> item, int p)
 	{
-		if(p > item.getPriority())
+		if(p < item.getPriority())
 		{
 			item.setPriority(p) ;
 			int i = item.getPos() ;
-			while((i > 1) && (this.list.get(i).getPriority() > this.list.get(i / 2).getPriority()))
+			while((i > 1) && (this.list.get(i).getPriority() < this.list.get(i / 2).getPriority()))
 			{
 				this.swap(i, i / 2) ;
 				i = i / 2 ;
@@ -137,8 +137,8 @@ public class PriorityQueue<T>
 	
 	public T delete(PriorityItem<T> item, int p)
 	{
-		item.setPriority(1000) ;
-		this.deleteMax() ;
+		item.setPriority(-1) ;
+		this.deleteMin() ;
 		return item.getItem() ;
 	}
 	

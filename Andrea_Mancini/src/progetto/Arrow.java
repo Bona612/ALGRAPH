@@ -7,18 +7,13 @@ import javafx.geometry.Pos;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color; 
 
-public class Arrow extends Group {
-
+public class Arrow extends Group
+{
     private final Line line;
-
-
-
     private static final double DistanceLab = 10;
     private static final double distanceLine = 5;
     private static final double arrowLength = 10;
@@ -28,10 +23,9 @@ public class Arrow extends Group {
     private Polygon arrow;
     private Edge edge;
     
-  public Arrow(Edge edge) {
-	  
-        this(new Line(), new Polygon(), edge);
-        
+    public Arrow(Edge edge)
+    {
+    	this(new Line(), new Polygon(), edge) ;    
     }
   
   public Arrow(Line line, Polygon arrow, Edge edge) {
@@ -194,27 +188,26 @@ public class Arrow extends Group {
         highlight(false, Color.MAGENTA);
     }
 
-    public void highlight(boolean highlight, Color color) {
-    	
-        if (line == null) {
-            return;
+    public void highlight(boolean highlight, Color color) 
+    {
+        if (line == null)
+        {
+            return ;
         }
         Color currentColor = (Color)line.getStroke();
 
-        if (highlight) {
-            if (currentColor.equals(color)) {
-                return;
+        if (highlight) 
+        {
+            if (currentColor.equals(color)) 
+            {
+                return ;
             }
-            this.color = currentColor;
+            this.color = currentColor ;
         }
-
-        line.setStroke(highlight ? color : color);
-        label.setTextFill(highlight ? color : color);
-
-      
-        arrow.setStroke(highlight ? color : color);
-       
-      
+        line.setStroke(highlight ? color : color) ;
+        label.setTextFill(highlight ? color : color) ;
+        arrow.setStroke(highlight ? color : color) ;
+        
     }
     
 }
