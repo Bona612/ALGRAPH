@@ -9,21 +9,17 @@ import javafx.scene.paint.Color;
 
 public class Algorithm
 {
-	
 	private Node startNode ;
-	
 	private Map<Node, Integer> resultDistance ;
     private Map<Node, Node> resultParent ;
-    
     private Node u ;
     private Iterator<Edge> adjacencies ;
     private Node v ;
     private int w ;
     private Edge e ;
-    
     private Graph graph ;
     private PriorityQueue<Node>	priorityQueue ;
-    
+    private int step ;
     private boolean cicle ;
     
     public Algorithm(Graph graph)
@@ -35,17 +31,88 @@ public class Algorithm
         v = null ;
         adjacencies = null ;
         resultParent = new HashMap<>() ;
+        this.step = 0 ;
         cicle = false ;
     }
     
     public void setStartNode(Node node)
     {
+    	this.step++ ;
         startNode = node ;
         resultDistance = this.graph.getNodes().stream().collect(Collectors.toMap(n -> n, n -> n.equals(this.startNode) ? 0 : Integer.MAX_VALUE)) ;
         this.priorityQueue.insert(startNode, 0) ;
     }
     
-    public boolean executeStep()
+    public void executeStep()
+    {
+    	if(this.step > 3)
+    	{
+    		return ;
+    	}
+    	switch(this.step)
+    	{
+    		case 1 :
+    			/*if(v != null && e != null)
+    	    	{
+    	    		e.getArrow().resetHighlight() ;
+    	    		v.resetHighlight() ;
+    	    	}*/
+    			for(Edge e_tmp : this.graph.getEdges())
+    			{
+    				e_tmp.getArrow().resetHighlight() ;
+    			}
+    			for(Node n_tmp : this.graph.getNodes())
+    			{
+    				n_tmp.resetHighlight() ;
+    			}
+    			if(priorityQueue.isEmpty())
+               	{
+    				PriorityItem<Node> priorityItem = priorityQueue.deleteMin() ;
+            		u = priorityItem.getItem() ;
+            		u.setColor(Color.RED) ;
+            		if(v != null)
+            		{
+            			this.adjacencies = this.graph.getGraph().get(resultParent.get(u)).iterator() ;
+                		while(this.adjacencies.hasNext())
+                		{
+                			Edge tmp = this.adjacencies.next() ;
+                			if(tmp.getN2().equals(u))
+                			{
+                				tmp.getArrow().setColor(Color.RED) ;
+                			}
+                		}
+                		this.adjacencies = null ;
+            		}
+            		if(this.adjacencies == null) 
+            		{
+            			this.adjacencies = this.graph.getGraph().get(u).iterator() ;
+            		}
+            		break ;
+               	}
+    			this.step = 3 ;
+    			return ;
+    		case 2 :
+    			/*if(v != null && e != null)
+    	    	{
+    	    		e.getArrow().resetHighlight() ;
+    	    		v.resetHighlight() ;
+    	    	}*/
+    			if(this.adjacencies.hasNext())
+        		{
+        			this.executeStepIn() ;
+        			return ;
+        		}
+    			this.step = 1 ;
+    			this.executeStep() ;
+    			return ;
+    		case 3 :
+    			System.out.println("Finish") ;
+    			break ;
+    	}
+    	this.step++ ;
+    }
+    /*
+    public boolean executeStep2()
     {
     	if(v != null)
     	{
@@ -72,7 +139,7 @@ public class Algorithm
             		}
             		this.adjacencies = null ;
         		}
-        		
+        		// provare a dividere qui
         		if(this.adjacencies == null) 
         		{
         			this.adjacencies = this.graph.getGraph().get(u).iterator() ;
@@ -95,7 +162,7 @@ public class Algorithm
     		return true ;
     	}
     }
-    
+    */
     public void executeStepIn()
     {
     	this.e = this.adjacencies.next() ;
@@ -122,15 +189,22 @@ public class Algorithm
 				e2.getN2().highlight(Color.BLUE) ;
 			}
 		}
-		cicle = this.adjacencies.hasNext() ;
+		//cicle = this.adjacencies.hasNext() ;
     }
     
     public void executeAll() 
     {
-        while(this.executeStep())
+        while(this.step <= 3)
         {
+        	try
+        	{
+        		wait(1000) ;
+        	}
+        	catch(Exception e)
+        	{
+        	}
+        	this.executeStep() ;
         }
-        System.out.println("finish") ;
     }
     
 }
