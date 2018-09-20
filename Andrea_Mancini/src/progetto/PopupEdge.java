@@ -1,37 +1,41 @@
 package progetto;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
-import javafx.stage.Popup;
+import javafx.scene.control.MenuItem;
 
-public class PopupEdge {
+
+public class PopupEdge 
+{
 	
-	public Popup popup;
-	public ListView<String> option;
-    public ObservableList<String> items;
+	private ContextMenu popup;
+	public MenuItem item1;
+	public MenuItem item2;
+	public MenuItem item3;
     
-    public PopupEdge() {
-    	this.popup = new Popup();
-    	this.option = new ListView<String> ();
-    	this.items = FXCollections.<String>observableArrayList(
-				"Modifica Peso", "Modifica Direzione");
-    	option.setItems(items);
- 	    option.setPrefHeight(73.0);
- 	    option.setPrefWidth(95.0);
- 	    option.setStyle("-fx-background-color: white; -fx-background-insets: 0; -fx-selection-bar: black; -fx-border-color: black;"
- 	    		+ " -fx-border-insets: 0; -fx-border-width: 0.5; ");
- 	   
- 	    popup.getContent().add(option);
- 	    popup.setAutoHide(true);
- 	    
+    public PopupEdge() 
+    {
+    	  popup = new ContextMenu();
+    	  popup.setStyle("-fx-selection-bar: black; -fx-border-color: black;" );
+          item1 = new MenuItem("Cambia Peso");
+          item2 = new MenuItem ("Modifica Arco");
+          item3 = new MenuItem ("Elimina Arco");
+          
+          popup.getItems().addAll(item1, item2, item3);
+          
     }
     
-    public ObservableList<String> getItems() {
-    	return this.items;
+    
+    public MenuItem getItem1() {
+    	return item1;
     }
     
-    public Popup getPopup() {
+    public MenuItem getItem2() {
+    	return item2;
+    }
+    
+    public ContextMenu getPopup() {
     	return this.popup;
     }
 }

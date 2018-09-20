@@ -1,8 +1,6 @@
 package progetto;
 
 import java.io.File;
-
-
 import java.io.IOException;
 
 
@@ -27,6 +25,7 @@ import javafx.stage.Stage;
 public class LauncherControl {
 	
 	private Scene scene;
+	private GraphicControl gc;
 	
 	public LauncherControl() {
 		this.scene = setStartMenu();
@@ -147,11 +146,15 @@ public class LauncherControl {
         }
    }
 
-  
+  public Pane getPane() {
+	  return gc.getPane();
+  }
+  public Graph getGraph() {
+	  return gc.getGraph();
+  }
   public Scene getScene() {
 	  return this.scene;
   }
 
   
 }
-

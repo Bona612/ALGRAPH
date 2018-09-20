@@ -1,37 +1,30 @@
 package progetto;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
-import javafx.stage.Popup;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 
-public class PopupNode {
-	
-	public Popup popup;
-	public ListView<String> option;
-    public ObservableList<String> items;
+public class PopupNode
+{
+	public ContextMenu popup;
+	public MenuItem item1;
+	public MenuItem item2;
+	public MenuItem item3;
     
     public PopupNode() {
-    	this.popup = new Popup();
-    	this.option = new ListView<String> ();
-    	this.items = FXCollections.<String>observableArrayList(
-				"Aggiungi Nodo", "Rimuovi Nodo");
-    	option.setItems(items);
- 	    option.setPrefHeight(73.0);
- 	    option.setPrefWidth(95.0);
- 	    option.setStyle("-fx-background-color: white; -fx-background-insets: 0; -fx-selection-bar: black; -fx-border-color: black;"
- 	    		+ " -fx-border-insets: 0; -fx-border-width: 0.5; ");
- 	   
- 	    popup.getContent().add(option);
+    	this.popup = new ContextMenu();
+    	popup.setStyle("-fx-selection-bar: black; -fx-border-color: black;" );
+    	
+    	item1 = new MenuItem ("Aggiungi nodo");
+	    item2 = new MenuItem ("Aggiungi arco");
+	    item3 = new MenuItem ("Rimuovi nodo");
+	      
+	    popup.getItems().addAll(item1, item2, item3);
  	    popup.setAutoHide(true);
  	    
     }
-    
-    public ObservableList<String> getItems() {
-    	return this.items;
-    }
-    
-    public Popup getPopup() {
+     
+    public ContextMenu getPopup() {
     	return this.popup;
     }
+    
 }

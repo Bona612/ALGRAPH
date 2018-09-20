@@ -2,7 +2,7 @@ package progetto;
 
 import java.util.Objects;
 
-
+import javafx.scene.control.ContextMenu;
 import javafx.stage.Popup;
 
 public class Edge {
@@ -21,8 +21,8 @@ public class Edge {
 		this.n1 = n1 ;
 		this.n2 = n2 ;
 		this.weight = DEFAULT_WEIGHT ;
-		/*this.arrow = new Arrow(this);
-		setPopup();*/
+		this.arrow = new Arrow(this);
+		setPopup();
 	}
 
 	public Edge(Node n1, Node n2, int weight)
@@ -30,8 +30,8 @@ public class Edge {
 		this.n1 = n1 ;
 		this.n2 = n2 ;
 		this.weight = weight ;
-		/*this.arrow = new Arrow(this);
-		setPopup();*/
+		this.arrow = new Arrow(this);
+		setPopup();
 	}
 	
 	public Node getN1()
@@ -49,7 +49,7 @@ public class Edge {
     	if(weight > 0)
     	{
     		this.weight = weight;
-    		//this.arrow.setLabel(weight);
+    		this.arrow.setLabel(weight);
     	}
     }
     
@@ -65,7 +65,7 @@ public class Edge {
     private void  setPopup() {
     	this.popup = new PopupEdge();
     }
-    public Popup getPopup() {
+    public ContextMenu getPopup() {
     	return this.popup.getPopup();
     }
     

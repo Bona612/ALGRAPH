@@ -28,12 +28,13 @@ public class Arrow extends Group
     	this(new Line(), new Polygon(), edge) ;    
     }
   
-  public Arrow(Line line, Polygon arrow, Edge edge) {
-        super(line, arrow);
+  public Arrow(Line line, Polygon arrow, Edge edge) 
+  {
+	  super(line, arrow);
         this.line = line;
         this.arrow = arrow;
         this.edge = edge;
-       
+        this.color = Color.BLACK ;
         this.label = new Label(String.valueOf(this.edge.getWeight()));
         	
         setStartX(this.edge.getN1().getNodeSP().getTranslateX()+28.0);     
@@ -43,7 +44,7 @@ public class Arrow extends Group
         
         this.line.setStrokeWidth(3);
         
-        label.setTextFill(Color.BLACK);
+        label.setTextFill(this.color) ;
         label.setAlignment(Pos.CENTER); 
         label.setLabelFor(this);
         label.setFont(new Font(18));
@@ -183,31 +184,29 @@ public class Arrow extends Group
     public final DoubleProperty endYProperty() {
         return line.endYProperty();
     }
-    public void resetHighlight() {
-        this.color = Color.BLACK;
-        highlight(false, Color.MAGENTA);
-    }
-
-    public void highlight(boolean highlight, Color color) 
+    
+    public void setColor(Color color)
     {
-        if (line == null)
-        {
-            return ;
-        }
-        Color currentColor = (Color)line.getStroke();
-
-        if (highlight) 
-        {
-            if (currentColor.equals(color)) 
-            {
-                return ;
-            }
-            this.color = currentColor ;
-        }
-        line.setStroke(highlight ? color : color) ;
-        label.setTextFill(highlight ? color : color) ;
-        arrow.setStroke(highlight ? color : color) ;
-        
+    	this.color = color ;
+    	this.highlight(this.color) ;
+    }
+    
+    public Color getColor()
+    {
+    	return this.color ;
+    }
+    
+    public void resetHighlight()
+    {
+        highlight(this.color) ;
+    }
+    
+    public void highlight(Color color)
+    {
+    	line.setStroke(color) ;
+        label.setTextFill(color) ;
+        arrow.setStroke(color) ;
+        arrow.setFill(color) ;
     }
     
 }
