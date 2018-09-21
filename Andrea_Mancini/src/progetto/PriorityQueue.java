@@ -67,13 +67,13 @@ public class PriorityQueue<T>
 		PriorityItem<T> aux = new PriorityItem<T>() ;
 		aux.setItem(this.list.get(pos1).getItem()) ;
 		aux.setPriority(this.list.get(pos1).getPriority()) ;
-		aux.setPos(this.list.get(pos1).getPos()) ;
+		//aux.setPos(this.list.get(pos1).getPos()) ;
 		this.list.get(pos1).setItem(this.list.get(pos2).getItem()) ;
 		this.list.get(pos1).setPriority(this.list.get(pos2).getPriority()) ;
-		this.list.get(pos1).setPos(this.list.get(pos2).getPos()) ;
+		//this.list.get(pos1).setPos(this.list.get(pos2).getPos()) ;
 		this.list.get(pos2).setItem(aux.getItem()) ;
 		this.list.get(pos2).setPriority(aux.getPriority()) ;
-		this.list.get(pos2).setPos(aux.getPos()) ;
+		//this.list.get(pos2).setPos(aux.getPos()) ;
 	}
 	
 	public void heapBuild(ArrayList<PriorityItem<T>> list, int n)
@@ -144,16 +144,18 @@ public class PriorityQueue<T>
 	
 	public boolean searchItem(T item)
 	{
-		PriorityItem<T> priorityItem = new PriorityItem<>(item) ;
-        PriorityItem<T> searched = null ;
+		boolean searched = false ;
         for(PriorityItem<T> tmp : this.list)
         {
-            if(priorityItem.equals(tmp))
-            {
-                searched = tmp ;
-            }
+        	if((Node)(tmp.getItem()) != null)
+        	{
+        		if(((Node)(tmp.getItem())).getLabel().equals(((Node)item).getLabel()))
+                {
+            		searched = true ;
+                }
+        	}
         }
-        return searched != null ;
+        return searched ;
     }
 	
 	public PriorityItem<T> getPriorityItem(T item)
@@ -183,6 +185,8 @@ public class PriorityQueue<T>
 				numItems++ ;
 				Node node = (Node) item.getItem() ;
 				stringBuilder.append(node.getLabel()) ;
+				stringBuilder.append(" ") ;
+				stringBuilder.append(item.getPos()) ;
 				if(numItems < this.dim)
 				{
 					stringBuilder.append(",") ;

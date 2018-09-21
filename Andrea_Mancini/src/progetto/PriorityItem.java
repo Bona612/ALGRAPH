@@ -59,5 +59,20 @@ public class PriorityItem<T>
         this.pos = pos ;
     }
     
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if(!this.getClass().equals(obj.getClass()))
+        {
+            return false ;
+        }
+        if(obj instanceof PriorityItem)
+        {
+            PriorityItem<Node> item = (PriorityItem<Node>) obj ;
+            return this.item.equals(item.getItem()) ;
+        }
+        return false;
+    }
+    
 }
 

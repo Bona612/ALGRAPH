@@ -42,12 +42,12 @@ public class Arrow extends Group
         setEndX(this.edge.getN2().getNodeSP().getTranslateX()+28.0);
         setEndY(this.edge.getN2().getNodeSP().getTranslateY()+28.0);
         
-        this.line.setStrokeWidth(3);
+        this.line.setStrokeWidth(1);
         
         label.setTextFill(this.color) ;
         label.setAlignment(Pos.CENTER); 
         label.setLabelFor(this);
-        label.setFont(new Font(18));
+        label.setFont(new Font(16));
         
         label.widthProperty().addListener(updater); 
         label.heightProperty().addListener(updater);

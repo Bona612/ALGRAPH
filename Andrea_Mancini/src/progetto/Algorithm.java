@@ -67,8 +67,10 @@ public class Algorithm
     			}
     			if(priorityQueue.isEmpty())
                	{
+    				System.out.println(priorityQueue.toString()) ;
     				PriorityItem<Node> priorityItem = priorityQueue.deleteMin() ;
             		u = priorityItem.getItem() ;
+            		System.out.println(priorityQueue.toString()) ;
             		u.setColor(Color.RED) ;
             		if(v != null)
             		{
@@ -99,7 +101,9 @@ public class Algorithm
     	    	}*/
     			if(this.adjacencies.hasNext())
         		{
+    				System.out.println(priorityQueue.toString()) ;
         			this.executeStepIn() ;
+        			System.out.println(priorityQueue.toString()) ;
         			return ;
         		}
     			this.step = 1 ;
