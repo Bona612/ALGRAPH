@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javafx.scene.paint.Color;
 
 public class Algorithm
@@ -20,7 +19,6 @@ public class Algorithm
     private Graph graph ;
     private PriorityQueue<Node>	priorityQueue ;
     private int step ;
-    private boolean cicle ;
     
     public Algorithm(Graph graph)
     {
@@ -32,7 +30,6 @@ public class Algorithm
         adjacencies = null ;
         resultParent = new HashMap<>() ;
         this.step = 0 ;
-        cicle = false ;
     }
     
     public void setStartNode(Node node)
@@ -109,64 +106,13 @@ public class Algorithm
     			this.step = 1 ;
     			this.executeStep() ;
     			return ;
-    		case 3 :
+    		/*case 3 :
     			System.out.println("Finish") ;
-    			break ;
+    			return ;*/
     	}
     	this.step++ ;
     }
-    /*
-    public boolean executeStep2()
-    {
-    	if(v != null)
-    	{
-    		e.getArrow().resetHighlight() ;
-    		v.resetHighlight() ;
-    	}
-    	if(!cicle)
-    	{
-    		if(priorityQueue.isEmpty())
-           	{	
-           		PriorityItem<Node> priorityItem = priorityQueue.deleteMin() ;
-        		u = priorityItem.getItem() ;
-        		u.setColor(Color.RED) ;
-        		if(v != null)
-        		{
-        			this.adjacencies = this.graph.getGraph().get(resultParent.get(u)).iterator() ;
-            		while(this.adjacencies.hasNext())
-            		{
-            			Edge tmp = this.adjacencies.next() ;
-            			if(tmp.getN2().equals(u))
-            			{
-            				tmp.getArrow().setColor(Color.RED) ;
-            			}
-            		}
-            		this.adjacencies = null ;
-        		}
-        		// provare a dividere qui
-        		if(this.adjacencies == null) 
-        		{
-        			this.adjacencies = this.graph.getGraph().get(u).iterator() ;
-        		}
-        		if(this.adjacencies.hasNext())
-        		{
-        			this.executeStepIn() ;
-        		}
-        		else
-        		{
-        			this.adjacencies = null ;
-        		}
-        		return true ;
-           	}
-    		return false ;
-    	}
-    	else
-    	{
-    		this.executeStepIn() ;
-    		return true ;
-    	}
-    }
-    */
+    
     public void executeStepIn()
     {
     	this.e = this.adjacencies.next() ;
@@ -193,22 +139,19 @@ public class Algorithm
 				e2.getN2().highlight(Color.BLUE) ;
 			}
 		}
-		//cicle = this.adjacencies.hasNext() ;
     }
     
-    public void executeAll() 
+    public boolean isFinished()
     {
-        while(this.step <= 3)
-        {
-        	try
-        	{
-        		wait(1000) ;
-        	}
-        	catch(Exception e)
-        	{
-        	}
-        	this.executeStep() ;
-        }
+    	return this.step == 3 ;
     }
     
+    public void executeAll()
+    {
+    	if(this.isFinished())
+    	{
+    		return ;
+    	}
+    	Timeout.setTimeout(() -> { this.executeStep() ; }, 2000, () -> { this.executeAll() ; }) ;
+    }
 }
