@@ -36,6 +36,7 @@ public class Algorithm
     {
     	this.step++ ;
         startNode = node ;
+        startNode.setPriority(0) ;
         resultDistance = this.graph.getNodes().stream().collect(Collectors.toMap(n -> n, n -> n.equals(this.startNode) ? 0 : Integer.MAX_VALUE)) ;
         this.priorityQueue.insert(startNode, 0) ;
     }
@@ -67,6 +68,7 @@ public class Algorithm
     				System.out.println(priorityQueue.toString()) ;
     				PriorityItem<Node> priorityItem = priorityQueue.deleteMin() ;
             		u = priorityItem.getItem() ;
+            		u.setPriority(resultDistance.get(u)) ;
             		System.out.println(priorityQueue.toString()) ;
             		u.setColor(Color.RED) ;
             		if(v != null)

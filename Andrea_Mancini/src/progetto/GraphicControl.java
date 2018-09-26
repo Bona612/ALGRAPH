@@ -73,7 +73,7 @@ public class GraphicControl {
 	        int k = 0;
 	        double startX =	widthScene / 3;
 	        double startY = heightScene / 3;
-	        double radiusTop = Math.min(startX, startY) - node.getRadiusTop()- 10;
+	        double radiusTop = Math.min(startX, startY) - node.getRadiusBack() ;
 	        int n = graph.getNodes().size();
 
 	        for (Node node : graph.getNodes()) {

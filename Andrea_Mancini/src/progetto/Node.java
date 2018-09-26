@@ -3,8 +3,10 @@ package progetto;
 import java.util.Objects;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -14,13 +16,15 @@ import javafx.stage.Popup;
 
 public class Node {
 	
-	private Circle cerchioTop; 
+	//private Circle cerchioTop; 
 	private Circle cerchioBack;
 	public PopupNode popup;
 	private StackPane sp = new StackPane();
 	private double controlNodeX, controlNodeY;
 	private Color color ;
 	private String label ;
+	private Label textLabel ;
+	private Label priorityLabel ;
 	
 	public Node()
 	{
@@ -37,17 +41,37 @@ public class Node {
 	
 	private void NodeGraphic() 
 	{
-		Text t1 = new Text(label);
-		Font f1 = new Font ("Arial", 14);
 		this.color = Color.BLACK ;
-		t1.setFill(this.color) ;
-		t1.setFont(f1);
-				
-		cerchioTop =  new Circle (25.0, Color.WHITE);
+		
 		cerchioBack = new Circle (28.0, this.color);
-		cerchioBack.setCenterX(cerchioTop.getCenterX());
-		cerchioBack.setCenterY(cerchioTop.getCenterY());
-		sp.getChildren().addAll(cerchioBack, cerchioTop, t1);
+		cerchioBack.setStroke(Color.BLACK) ;
+		cerchioBack.setStrokeWidth(2) ;
+		
+		this.textLabel = new Label(this.label) ;
+		textLabel.setFont(new Font(18)) ;
+		textLabel.setTextFill(Color.WHITE) ;
+		textLabel.setPrefWidth(this.cerchioBack.getRadius() * 2);
+		textLabel.setPrefHeight(this.cerchioBack.getRadius() * 2);
+		textLabel.setAlignment(Pos.TOP_CENTER) ;
+		
+		this.priorityLabel = new Label("") ;
+		priorityLabel.setFont(new Font(18)) ;
+		priorityLabel.setTextFill(Color.WHITE) ;
+		priorityLabel.setPrefWidth(this.cerchioBack.getRadius() * 2);
+		priorityLabel.setPrefHeight(this.cerchioBack.getRadius() * 2);
+		priorityLabel.setAlignment(Pos.BOTTOM_CENTER) ;
+		
+		//Text t1 = new Text(label);
+		//Font f1 = new Font ("Arial", 14);
+		
+		//t1.setFill(Color.WHITE) ;
+		//t1.setFont(f1) ;
+		//cerchioTop =  new Circle (25.0, Color.WHITE);
+		
+		//cerchioBack.setCenterX(cerchioTop.getCenterX());
+		//cerchioBack.setCenterY(cerchioTop.getCenterY());
+		sp.getChildren().addAll(cerchioBack, textLabel, priorityLabel);
+		
 		sp.setMaxSize(56.0, 56.0);
 		sp.setMinSize(5.0, 5.0);
 		sp.setCursor(Cursor.HAND);
@@ -104,13 +128,14 @@ public class Node {
 		return cerchioBack.getRadius();
 	}
 	
-	public double getRadiusTop() {
+	/*public double getRadiusTop() {
 		return cerchioTop.getRadius();
-	}
+	}*/
 	
-	public Circle getTop() {
+	/*public Circle getTop() {
 		return cerchioTop;
-	}
+	}*/
+	
 	public Circle getBack() {
 		return cerchioBack;
 	}
@@ -125,6 +150,11 @@ public class Node {
 		return controlNodeY;
 	}
 
+	public void setPriority(int priority)
+	{
+		this.priorityLabel.setText(Integer.toString(priority)) ; 
+	}
+	
 	public void highlight(Color color)
 	{
 		this.cerchioBack.setFill(color) ;
