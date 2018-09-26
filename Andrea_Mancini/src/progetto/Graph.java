@@ -1,14 +1,10 @@
 package progetto;
 
 	import java.util.ArrayList;
-
-
-
-
 	import java.util.HashMap;
-
 	import java.util.HashSet;
-	import java.util.List;
+import java.util.Iterator;
+import java.util.List;
 	import java.util.Map;
 	import java.util.Optional;
 	import java.util.Set;
@@ -68,11 +64,16 @@ package progetto;
 
 	    public Node addNode(Node node)
 	    {
-	        if (graph.containsKey(node))
-	        {
-	            return null;
-	        }
-
+	    	Node tmp ;
+	    	Iterator<Node> ns = getNodes().iterator() ;
+	    	while(ns.hasNext())
+	    	{
+	    		tmp = ns.next() ; 
+	    		if(node.equals(tmp))
+		        {
+		            return null;
+		        }
+	    	}
 	        graph.put(node, new HashSet<>()) ;
 
 	        return node ;

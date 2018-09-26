@@ -24,6 +24,11 @@ public class PriorityQueue<T>
 		this.list.add(new PriorityItem<T>()) ;
 	}
 	
+	public void incCapacity()
+	{
+		this.capacity++ ;
+	}
+	
 	public void clear()
 	{
 		list.clear() ;
@@ -67,13 +72,10 @@ public class PriorityQueue<T>
 		PriorityItem<T> aux = new PriorityItem<T>() ;
 		aux.setItem(this.list.get(pos1).getItem()) ;
 		aux.setPriority(this.list.get(pos1).getPriority()) ;
-		//aux.setPos(this.list.get(pos1).getPos()) ;
 		this.list.get(pos1).setItem(this.list.get(pos2).getItem()) ;
 		this.list.get(pos1).setPriority(this.list.get(pos2).getPriority()) ;
-		//this.list.get(pos1).setPos(this.list.get(pos2).getPos()) ;
 		this.list.get(pos2).setItem(aux.getItem()) ;
 		this.list.get(pos2).setPriority(aux.getPriority()) ;
-		//this.list.get(pos2).setPos(aux.getPos()) ;
 	}
 	
 	public void heapBuild(ArrayList<PriorityItem<T>> list, int n)

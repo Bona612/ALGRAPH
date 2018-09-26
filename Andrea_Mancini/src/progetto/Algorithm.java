@@ -19,6 +19,8 @@ public class Algorithm
     private Graph graph ;
     private PriorityQueue<Node>	priorityQueue ;
     private int step ;
+    private boolean reset ;
+    private boolean pause ;
     
     public Algorithm(Graph graph)
     {
@@ -30,15 +32,16 @@ public class Algorithm
         adjacencies = null ;
         resultParent = new HashMap<>() ;
         this.step = 0 ;
+        this.reset = false ;
+        this.pause = false ;
     }
     
     public void setStartNode(Node node)
     {
-    	this.step++ ;
         startNode = node ;
-        startNode.setPriority(0) ;
         resultDistance = this.graph.getNodes().stream().collect(Collectors.toMap(n -> n, n -> n.equals(this.startNode) ? 0 : Integer.MAX_VALUE)) ;
         this.priorityQueue.insert(startNode, 0) ;
+        this.step++ ;
     }
     
     public void executeStep()
@@ -50,11 +53,6 @@ public class Algorithm
     	switch(this.step)
     	{
     		case 1 :
-    			/*if(v != null && e != null)
-    	    	{
-    	    		e.getArrow().resetHighlight() ;
-    	    		v.resetHighlight() ;
-    	    	}*/
     			for(Edge e_tmp : this.graph.getEdges())
     			{
     				e_tmp.getArrow().resetHighlight() ;
@@ -93,11 +91,6 @@ public class Algorithm
     			this.step = 3 ;
     			return ;
     		case 2 :
-    			/*if(v != null && e != null)
-    	    	{
-    	    		e.getArrow().resetHighlight() ;
-    	    		v.resetHighlight() ;
-    	    	}*/
     			if(this.adjacencies.hasNext())
         		{
     				System.out.println(priorityQueue.toString()) ;
@@ -108,9 +101,6 @@ public class Algorithm
     			this.step = 1 ;
     			this.executeStep() ;
     			return ;
-    		/*case 3 :
-    			System.out.println("Finish") ;
-    			return ;*/
     	}
     	this.step++ ;
     }
@@ -154,6 +144,40 @@ public class Algorithm
     	{
     		return ;
     	}
+    	if(pause)
+    	{
+    		this.pause = false ;
+    		return ;
+    	}
+    	if(reset)
+    	{
+    		this.resetAlgorithm() ;
+    		return ;
+    	}
     	Timeout.setTimeout(() -> { this.executeStep() ; }, 2000, () -> { this.executeAll() ; }) ;
+    }
+    
+    public void setReset()
+    {
+    	this.reset = true ;
+    }
+ 
+    public void setPause()
+    {
+    	this.pause = true ;
+    }
+    
+    public void resetAlgorithm()
+    {
+    	this.startNode = null ;
+    	this.u = null ;
+    	this. v = null ;
+        this.adjacencies = null ;
+        this.step = 0 ;
+        this.reset = false ;
+        this.pause = false ;
+        this.resultDistance.clear() ;
+        this.resultParent.clear() ;
+        this.priorityQueue.clear() ;
     }
 }

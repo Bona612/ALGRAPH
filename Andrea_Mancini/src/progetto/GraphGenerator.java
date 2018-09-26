@@ -1,12 +1,8 @@
 package progetto;
 
 import java.util.Optional;
-
 import java.util.Random;
-
-
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -46,6 +42,7 @@ public class GraphGenerator
 	     }
 
 		 Random random = new Random() ;
+		 
 		 int maxEdges = 0;
 		 for(int i = 1; i < numNodes; i++)
 		 {
@@ -62,7 +59,7 @@ public class GraphGenerator
 	     }
 
 	     int i = 0 ;
-	     
+
 	     while(i < numEdges)
 	     {
 	    	 int rand1 = 0 ;
@@ -77,20 +74,20 @@ public class GraphGenerator
 	         Node[] nodes = graph.getGraph().keySet().toArray(new Node[0]) ;
 	         Node n1 = nodes[rand1] ;
 	         Node n2 = nodes[rand2] ;
-	         
+
 	         int weight = random.nextInt(maxWeight - minWeight + 1) + minWeight ;
 	         Edge newEdge = new Edge(n1, n2, DEFAULT_MIN_WEIGHT);
 	         newEdge.setWeight(weight);
-	         
+	        
 	         if(graph.addEdge(newEdge) != null)
 	         {
 	        	 i++ ;
 	         }
-	         
 	     }
 	     return graph ;
     }	
 	 
+	 /*
 	 public void generateGraphGraphic() {
 	        try {
 	            GraphGeneratorDialogResult result =
@@ -99,20 +96,12 @@ public class GraphGenerator
 	            if (result == null) {
 	                return;
 	            }
-	      
-	            Graph graph = new Graph();
-	          
+	         
 	           generateGraph(
 	                    result.getNumNodes(),
 	                    result.getMinWeight(),
-	                    result.getMaxWeight()
-	               
+	                    result.getMaxWeight()	               
 	            );
-
-	            GraphicControl gc = new GraphicControl();
-
-	            gc.setGraph(graph);
-
 
 	        } catch (Exception e) {
 	        	Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -121,10 +110,10 @@ public class GraphGenerator
 		        alert.setContentText("Impossibile generare il grafo");
 
 		        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-		        stage.showAndWait();
+		        stage.show();
 	        }
 	   }
-	 
+	*/ 
 	 public static GraphGeneratorDialogResult showGraphGeneratorDialog() throws Exception{
 			
 			Dialog<GraphGeneratorDialogResult> dialog = new Dialog<>();
@@ -193,11 +182,22 @@ public class GraphGenerator
 		        private int maxWeight;
 
 		        private Exception exception;
-		        
+
+		        /**
+		         * Initializes result with an error
+		         * @param exception Exception threw by dialog
+		         */
 		        public GraphGeneratorDialogResult(Exception exception) {
 		            this.exception = exception;
 		        }
 
+		        /**
+		         * Initializes result with a correct result
+		         * @param numNodes Number of nodes to generate
+		         * @param minWeight Minimum weight of graph edges
+		         * @param maxWeight Maximum weight of graph edges
+		         * @param directed Graph directed
+		         */
 		        public GraphGeneratorDialogResult(int numNodes, int minWeight, int maxWeight) {
 		            this.numNodes = numNodes;
 		            this.minWeight = minWeight;
@@ -221,5 +221,4 @@ public class GraphGenerator
 		        }
 		    }
 }
-
 

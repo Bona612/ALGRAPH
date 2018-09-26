@@ -1,12 +1,12 @@
 package progetto;
 
 import javafx.beans.InvalidationListener;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Pos;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color; 
@@ -36,18 +36,19 @@ public class Arrow extends Group
         this.edge = edge;
         this.color = Color.BLACK ;
         this.label = new Label(String.valueOf(this.edge.getWeight()));
-        	
-        setStartX(this.edge.getN1().getNodeSP().getTranslateX()+28.0);     
-        setStartY(this.edge.getN1().getNodeSP().getTranslateY()+28.0);
-        setEndX(this.edge.getN2().getNodeSP().getTranslateX()+28.0);
-        setEndY(this.edge.getN2().getNodeSP().getTranslateY()+28.0);
+        this.setCursor(Cursor.HAND);
         
-        this.line.setStrokeWidth(1.5);
+        setStartX(this.edge.getN1().getNodeSP().getTranslateX() + this.edge.getN1().getRadiusCircle());     
+        setStartY(this.edge.getN1().getNodeSP().getTranslateY() + this.edge.getN1().getRadiusCircle());
+        setEndX(this.edge.getN2().getNodeSP().getTranslateX() + this.edge.getN2().getRadiusCircle());
+        setEndY(this.edge.getN2().getNodeSP().getTranslateY() + this.edge.getN2().getRadiusCircle());
+        
+        this.line.setStrokeWidth(1);
         
         label.setTextFill(this.color) ;
         label.setAlignment(Pos.CENTER); 
         label.setLabelFor(this);
-        label.setFont(new Font(18));
+        label.setFont(new Font(16));
         
         label.widthProperty().addListener(updater); 
         label.heightProperty().addListener(updater);
@@ -69,13 +70,13 @@ public class Arrow extends Group
   
   InvalidationListener updater = o -> {
 	
-  	double circonf = this.edge.getN2().getBack().getRadius();
+  	double circonf = this.edge.getN2().getCircle().getRadius();
 
       double
-              arrowsx = this.edge.getN1().getNodeSP().getTranslateX()+28.0,
-              arrowsy = this.edge.getN1().getNodeSP().getTranslateY()+28.0,
-              arrowex = this.edge.getN2().getNodeSP().getTranslateX()+28.0,
-              arrowey = this.edge.getN2().getNodeSP().getTranslateY()+28.0,
+              arrowsx = this.edge.getN1().getNodeSP().getTranslateX() + this.edge.getN1().getRadiusCircle(),
+              arrowsy = this.edge.getN1().getNodeSP().getTranslateY() + this.edge.getN1().getRadiusCircle(),
+              arrowex = this.edge.getN2().getNodeSP().getTranslateX() + this.edge.getN1().getRadiusCircle(),
+              arrowey = this.edge.getN2().getNodeSP().getTranslateY() + this.edge.getN1().getRadiusCircle(),
               arrowdx = arrowsx - arrowex,
               arrowdy = arrowsy - arrowey;
 

@@ -1,14 +1,10 @@
 package progetto;
 
 import java.io.BufferedReader;
-
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-
 
 public class FileInOut
 {
@@ -24,6 +20,10 @@ public class FileInOut
         if (file == null)
         {
             throw new IOException() ;
+        }
+        
+        if (graph == null) {
+        	throw new IOException();
         }
         currentFile = file ;
  
@@ -52,6 +52,7 @@ public class FileInOut
         {
             throw new IOException() ;
         }
+        
         currentFile = file ;
 
         BufferedReader fileIn = new BufferedReader(new FileReader(file)) ;
@@ -95,8 +96,7 @@ public class FileInOut
             e.printStackTrace() ;
         }
     }
-    
+}
    
     
 
-}

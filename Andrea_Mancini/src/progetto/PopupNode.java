@@ -3,8 +3,8 @@ package progetto;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
-public class PopupNode
-{
+public class PopupNode {
+	
 	public ContextMenu popup;
 	public MenuItem item1;
 	public MenuItem item2;

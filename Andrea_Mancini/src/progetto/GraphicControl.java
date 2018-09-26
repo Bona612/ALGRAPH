@@ -1,79 +1,55 @@
 package progetto;
 
 import java.util.Optional;
-
-import java.util.Scanner;
-
-
 import java.util.stream.Collectors;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.image.Image;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
-public class GraphicControl {
-
-	private StartWindow sw;
+public class GraphicControl  {
+	
+	private ContextMenu ContextMenu;
 	private Algorithm algorithm;
-	private UtilityButton ub;
-	private Graph graph;
+	protected UtilityButton ub;
+	private StartWindow startWindow;
+	protected Graph graph;
+	private Pane menuButton;
 	private Scene scene;
 	private Node node;
-	private Pane root = new Pane();
-	private Stage stage;
-	private double heightScene = 800.0, widthScene = 1200.0;
+	private Pane root;
+	private double heightRoot = 400.0, widthRoot = 650.0;
 	double orgSceneX, orgSceneY;
 	double orgTranslateX, orgTranslateY;
 
 	
-	public GraphicControl() {
-		
+	public GraphicControl(LauncherControl lc) {
+		this.menuButton = lc.getMenuButton();
+		setRoot();
+		setScene();
 	}
 	
-	public void setGraph(Graph graph) 
-	{
+	public void setGraph(Graph graph) {
 		 this.graph = graph;
-	     if (graph == null) 
-	     {
-	    	 return;
-	     }
-	     setGraphic();
-	     setScene();
-	     showGraph();
+	        if (graph == null) {
+	            return;
+	       }
+	      
+	        setGraphic();   
+	        setAlgorithm();
 	}
 	
-	public void setGraphic()
-	{
+	public void setGraphic() {
+		
 	       	node = new Node();
 	        int k = 0;
-	        double startX =	widthScene / 3;
-	        double startY = heightScene / 3;
-	        double radiusTop = Math.min(startX, startY) - node.getRadiusBack() ;
+	        double startX =	widthRoot / 2;
+	        double startY = heightRoot / 2;
+	        double radiusTop = Math.min(startX, startY) - node.getRadiusCircle() ;
 	        int n = graph.getNodes().size();
 
 	        for (Node node : graph.getNodes()) {
@@ -89,8 +65,7 @@ public class GraphicControl {
 	        
 	  }
 
-	public void updateGraphic() 
-	{
+	public void updateGraphic() {
 		root.getChildren().clear();
 
         root.getChildren().addAll(graph.getEdges().stream().map(Edge::getArrow).collect(Collectors.toSet()));
@@ -128,8 +103,8 @@ public class GraphicControl {
 	            double newTranslateX =  orgTranslateX + offsetX;
 	            double newTranslateY = orgTranslateY + offsetY;
 	            
-	            if ((newTranslateX >= (0.0)) && (newTranslateY <= (heightScene - 56.0)) && 
-	            		((newTranslateX <= widthScene-56.0) && (newTranslateY >= 0.0))){
+	            if ((newTranslateX >= (0.0)) && (newTranslateY <= (heightRoot - 56.0)) && 
+	            		((newTranslateX <= widthRoot-56.0) && (newTranslateY >= 0.0))){
 	            	             
 		            ((StackPane)(e2.getSource())).setTranslateX(newTranslateX);
 		            ((StackPane)(e2.getSource())).setTranslateY(newTranslateY);
@@ -140,56 +115,14 @@ public class GraphicControl {
 			}
 		});
 		
-		node.getPopup().getItems().get(0).setOnAction( new EventHandler <ActionEvent>() {
 		
-		
-			@Override
-			public void handle(ActionEvent eventPopup) {
-				
-				TextInputDialog dialog = new TextInputDialog("Label");
-		        dialog.setTitle("Aggiungi Nodo");
-	            dialog.setHeaderText(null);
-	            dialog.setContentText("Label:");
-
-	            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-	            Optional<String> result = dialog.showAndWait();
-	        	
-	            if (result.isPresent()) {
-	            	try {
-	            		
-	            		Node tmpNode = new Node(result.get());
-	            		tmpNode.getNodeSP().setTranslateX(node.getNodeSP().getTranslateX());
-	            		tmpNode.getNodeSP().setTranslateY(node.getNodeSP().getTranslateY());
-	            		graph.addNode(tmpNode);
-	            		
-	            	}
-	            	catch (Exception e) {
-	            		Alert alert = new Alert(Alert.AlertType.ERROR);
-	    		        alert.setTitle("Errore");
-	    		        alert.setHeaderText("Aggiungi Nodo");
-	    		        alert.setContentText("Impossibile aggiungere nodo");
-
-	    		        Stage stageAlert = (Stage) alert.getDialogPane().getScene().getWindow();
-	    		        stageAlert.show();
-	            	}
-		        	
-		        	updateGraphic();
-	            }
-			}
-			
-        });	
 			
 		 node.getPopup().getItems().get(1).setOnAction( new EventHandler <ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				TextInputDialog dialog = new TextInputDialog("Edge");
-	            dialog.setTitle("Aggiungi Arco");
-	            dialog.setHeaderText(null);
-	            dialog.setContentText("Nodo puntato:");
 
-	            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-	            Optional<String> result = dialog.showAndWait();
+		        Optional<String> result = UtilityWindow.choiceWindow("Aggiungi Arco","Nodo puntato:", graph);
 	        	
 	            if (result.isPresent()) {
 	            	try {
@@ -198,13 +131,9 @@ public class GraphicControl {
 	            		
 	            	}
 	            	catch (Exception e) {
-	            		Alert alert = new Alert(Alert.AlertType.ERROR);
-	    		        alert.setTitle("Errore");
-	    		        alert.setHeaderText("Aggiungi Arco");
-	    		        alert.setContentText("Impossibile aggiungere arco");
 
-	    		        Stage stageAlert = (Stage) alert.getDialogPane().getScene().getWindow();
-	    		        stageAlert.show();
+	    		        UtilityWindow.errorWindow("Errore","Aggiungi Arco","Impossibile aggiungere arco");
+
 	            	}
 		        	
 		        	updateGraphic();
@@ -253,17 +182,15 @@ public class GraphicControl {
 				
 						@Override
 						public void handle(ActionEvent event) {
-							
-						 TextInputDialog dialog = new TextInputDialog(String.valueOf(edge.getWeight()));
-				         dialog.setTitle("Cambia Peso");
-				         dialog.setHeaderText(null);
-				         dialog.setContentText("Peso:");
 		
-				         Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-		
-				         Optional<String> result = dialog.showAndWait();
+				         Optional<String> result = UtilityWindow.inputWindow("Cambia Peso", String.valueOf(edge.getWeight()), "Peso:");
 				         if (result.isPresent()) {
+				        	 try {
 				        	edge.setWeight(Integer.parseInt(result.get()));
+				        	 } catch (Exception e) {
+				        		 
+				        		 UtilityWindow.errorWindow("Errore", "Cambia Peso", "Peso non valido");
+				        	 }
 				         }
 						 updateGraphic();
 						 
@@ -277,13 +204,7 @@ public class GraphicControl {
 				@Override
 				public void handle(ActionEvent event) {
 					
-				    TextInputDialog dialog = new TextInputDialog(String.valueOf(edge.getN2().getLabel()));
-		            dialog.setTitle("Modifica Arco");
-		            dialog.setHeaderText(null);
-		            dialog.setContentText("Nuovo nodo puntato:");
-
-		            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-		            Optional<String> result = dialog.showAndWait();
+			        Optional<String> result = UtilityWindow.choiceWindow("Aggiungi Arco", "Nodo puntato:", graph);
 		        	
 		            if (result.isPresent()) {
 		            	try {
@@ -293,13 +214,9 @@ public class GraphicControl {
 				        	graph.removeEdge(edge);
 		            	}
 		            	catch (Exception e) {
-		            		Alert alert = new Alert(Alert.AlertType.ERROR);
-		    		        alert.setTitle("Errore");
-		    		        alert.setHeaderText("Modifica Nodo");
-		    		        alert.setContentText("Nodo non valido");
 
-		    		        Stage stageAlert = (Stage) alert.getDialogPane().getScene().getWindow();
-		    		        stageAlert.show();
+		    		        UtilityWindow.errorWindow("Errore","Modifica Nodo","Nodo non valido");
+
 		            	}
 			        	
 			        	updateGraphic();
@@ -323,85 +240,152 @@ public class GraphicControl {
 		
 	}
 	
-	private void setScene() {
+	private void setNodePosition(Node node) {
 		
-		ub = new UtilityButton();
-		sw = new StartWindow(root, ub.getBox());
-		scene = new Scene(sw.getWindow());
-		scene.widthProperty().addListener(new ChangeListener<Number>() {
+		if (node.getNodeSP().getTranslateX() > root.getWidth() - 56.0) {
+            node.getNodeSP().setTranslateX(root.getWidth() - 56.0);
+        }
+        if (node.getNodeSP().getTranslateX() < root.getTranslateX() + 56.0) {
+        	 node.getNodeSP().setTranslateX(root.getTranslateX() + 56.0);
+        }
+        if ( node.getNodeSP().getTranslateY() > root.getHeight() - 56.0) {
+        	node.getNodeSP().setTranslateY(root.getHeight() - 56.0);
+        }
+        if (node.getNodeSP().getTranslateY() < root.getTranslateY() + 56.0) {
+        	node.getNodeSP().setTranslateY(root.getTranslateY() + 56.0);
+        }
+	}
+	private void setRoot() {
+		root = new Pane();
+		ContextMenu = new ContextMenu();		
+		root.setOnContextMenuRequested(event -> {
+		ContextMenu.hide();
+		
+		 if (event.getPickResult().getIntersectedNode().getClass().equals(Pane.class)) {
 			
-			@Override
-			public void changed(ObservableValue<? extends Number> ObservableValue, Number oldSceneWidth, Number newSceneWidth) {
-				widthScene = (double)newSceneWidth;
-				/*
-				for(Node node :graph.getNodes()) {
-				 if (node.getNodeSP().getTranslateX() <= (0.0)) {
-					 node.getNodeSP().setTranslateX(28.0);
-				 }
-				
-				 else if (node.getNodeSP().getTranslateX() >= widthScene-56.0) {
-					node.getNodeSP().setTranslateX(widthScene-56.0);
-						 
-				 }
-				
-				}
-				*/
-			}
-			
-				
-		});
-		scene.heightProperty().addListener(new ChangeListener<Number>() {
+            		ContextMenu ContextMenu = new ContextMenu(); 
+            		ContextMenu.setStyle("-fx-selection-bar: black; -fx-border-color: black;" );
+            		this.ContextMenu = ContextMenu;          		
+     	            MenuItem item1 = new MenuItem("Crea Nodo");
+     	            ContextMenu.getItems().add(item1);  
+     	            ContextMenu.show((Pane) event.getSource(), event.getScreenX(), event.getScreenY());
+     	            item1.setOnAction(eventAction ->{
+     	            	
+    			    Optional<String> result = UtilityWindow.inputWindow("Aggiungi Nodo", "Label", "Label:");
+    		        	
+    		            if (result.isPresent()) {
+    		            	try {
+    		            		
+    		            		 Node node = new Node(result.get());
+    		 	            	 node.getNodeSP().setTranslateX(event.getX());
+    		 	            	 node.getNodeSP().setTranslateY(event.getY());
+    		 	            	 setNodePosition(node);
+    		 	            	 
+    		 	            	 if (graph == null) {
+    		 	            		 graph = new Graph();
+    		 	            		 graph.addNode(node); 	            		
+    		 	            		 setGraph(graph);
+    		 	            	 }
+    		 	            	 else 
+    		 	            		 graph.addNode(node);
+    		            	}
+    		            	catch (Exception e) {
+
+    		    		        UtilityWindow.errorWindow("Errore","Aggiungi Nodo","Impossibile aggiungere il nodo");
+
+    		            	}
+    			        	
+    			        	updateGraphic();
+    		            }
+	 	            	 
+	 	            });
+     	          	           
+		}
+		 
+	  });
+		
+		/*
+		root.widthProperty().addListener(new ChangeListener<Number>() {
+					
+					@Override
+					public void changed(ObservableValue<? extends Number> ObservableValue, Number oldSceneWidth, Number newSceneWidth) {
+						widthRoot = (double)newSceneWidth;
+						
+					if(graph != null) {
+						
+						for(Node node :graph.getNodes()) {
+						 if (node.getNodeSP().getTranslateX() <= (0.0)) {
+							 node.getNodeSP().setTranslateX(28.0);
+						 }
+						
+						 else if (node.getNodeSP().getTranslateX() >= widthRoot-56.0) {
+							node.getNodeSP().setTranslateX(widthRoot-56.0);
+								 
+						 }
+						
+						}
+						
+					}
+					
+				  }	
+				});
+		root.heightProperty().addListener(new ChangeListener<Number>() {
 			
 			@Override
 			public void changed(ObservableValue<? extends Number> ObservableValue, Number oldSceneHeight, Number newSceneHeight) {
-				heightScene= (double)newSceneHeight;
-				/*
-				for(Node node :graph.getNodes()) {
-				if  (node.getNodeSP().getTranslateY() >= (heightScene - 56.0)) {
-					 
-					node.getNodeSP().setTranslateY(heightScene-56.0);
-					
-					 
-				 }
+				heightRoot= (double)newSceneHeight;
 				
-				else if (node.getNodeSP().getTranslateY() <= (0.0)) {
+				if (graph != null) {
 					
-					node.getNodeSP().setTranslateY(0.0);
+					for(Node node :graph.getNodes()) {
+						System.out.println(node.getNodeSP().getTranslateX());
+					if  (node.getNodeSP().getTranslateY() >= (heightRoot - 56.0)) {
+						 
+						node.getNodeSP().setTranslateY(heightRoot-56.0);
+						
+						 
+					 }
+					
+					else if (node.getNodeSP().getTranslateY() <= (0.0)) {
+						
+						node.getNodeSP().setTranslateY(0.0);
+						
+						}
+		
 					
 					}
-				
+					
+					
 				}
-				*/
-			}
-		});
+		  }
+		 });
+		*/
+	}
+	           
+	private void setScene() {
 		
+		ub = new UtilityButton();
+		root.setMaxWidth(widthRoot);
+		root.setMaxHeight(heightRoot);
+		root.setStyle("-fx-border-color: black;  -fx-border-insets: 5; -fx-border-width: 1; -fx-border-radius: 3;");
+		this.startWindow = new StartWindow(root, ub.getBox(), menuButton);
+	
+		this.scene = new Scene(startWindow.getMenu());
 		
 	}
 	public void setAlgorithm() {
 		
-		TextInputDialog dialog = new TextInputDialog("Label");
-        dialog.setTitle("Scegli Nodo");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Label:");
-
-        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-        Optional<String> result = dialog.showAndWait();
+        Optional<String> result = UtilityWindow.choiceWindow("Nodo di partenza", "Nodo di partenza:", graph);
     	
         if (result.isPresent()) {
         	try {  		
-        		
         		
         		algorithm = new Algorithm(graph);
         		algorithm.setStartNode(graph.getNode(result.get())) ;
         	}
         	catch (Exception e) {
-        		Alert alert = new Alert(Alert.AlertType.ERROR);
-		        alert.setTitle("Errore");
-		        alert.setHeaderText("Aggiungi Nodo");
-		        alert.setContentText("Impossibile aggiungere nodo");
+		        UtilityWindow.errorWindow("Errore","Aggiungi Nodo","Impossibile aggiungere nodo");
 
-		        Stage stageAlert = (Stage) alert.getDialogPane().getScene().getWindow();
-		        stageAlert.show();
         	}
         	
         }
@@ -410,16 +394,15 @@ public class GraphicControl {
 			algorithm.executeAll();
 			updateGraphic();
 		});
-		
 		ub.getPasso().setOnAction(event->{
 			algorithm.executeStep();
 			updateGraphic();
 		});
 	}
-	public Scene getScene() {
-		
-		return this.scene;
 
+	
+	public Scene getScene() {	
+		return this.scene;
 	}
 	
 	public Pane getPane() {
@@ -429,8 +412,11 @@ public class GraphicControl {
 	public Graph getGraph() {
 		return graph;
 	}
-
 	
+	public StartWindow getStartWindow() {
+		return startWindow;
+	}
+	/*
 	private void showGraph() {
 		
 		this.stage = new Stage();
@@ -438,9 +424,7 @@ public class GraphicControl {
 		stage.setHeight(heightScene);
 		stage.setWidth(widthScene);
 		stage.show();
-		setAlgorithm();
+		
 	}
-	
-	
+	*/
 }
-

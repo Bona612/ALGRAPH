@@ -1,21 +1,17 @@
 package progetto;
 
-import javafx.collections.ObservableList;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 
 
-public class PopupEdge 
-{
+public class PopupEdge {
 	
 	private ContextMenu popup;
 	public MenuItem item1;
 	public MenuItem item2;
 	public MenuItem item3;
     
-    public PopupEdge() 
-    {
+    public PopupEdge() {
     	  popup = new ContextMenu();
     	  popup.setStyle("-fx-selection-bar: black; -fx-border-color: black;" );
           item1 = new MenuItem("Cambia Peso");
