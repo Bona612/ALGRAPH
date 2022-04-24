@@ -1,2 +1,2 @@
-# AlGRAPH
+# ALGRAPH
 Per Andrea Mancini
